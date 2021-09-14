@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     dx = 10, dy = 10, dz = 10;
+    r = 0, g = 0, b = 0;
+    currentObject = VOXEL;
     s = new Sculptor(dx,dy,dz);
 
     //Placing the sliders so they don't go beyond the sculptor's dimension

@@ -9,7 +9,7 @@
 using namespace std;
 
 /**
- * @brief The Plotter class si responsible for designing the custom widget
+ * @brief The Plotter class is responsible for designing the custom widget
  */
 class Plotter : public QWidget
 {

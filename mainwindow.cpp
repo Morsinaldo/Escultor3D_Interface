@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // Standard loading
     dx = 10, dy = 10, dz = 10;
     r = 0, g = 0, b = 0;
     currentObject = VOXEL;
@@ -100,31 +102,15 @@ void MainWindow::updateColor()
     QString color;
     color = "QPushButton { background-color: rgb(" +
             QString().setNum(r) + "," +
-            QString().setNum(g) + "," +
-            QString().setNum(b) + ");}";
+            QString().setNum(b) + "," +
+            QString().setNum(g) + ");}";
     ui->pushButtonShowColor->setStyleSheet(color);
-    s->setColor(r,g,b);
+    s->setColor(r,b,g);
 }
 
 void MainWindow::quit()
 {
     exit(0); // Mata tudo :X
-}
-
-void MainWindow::openDialog()
-{
-    Dialog D;
-    if(D.exec() == QDialog::Accepted){
-        dx = D.dXDialog().toInt();
-        dy = D.dYDialog().toInt();
-        dz = D.dZDialog().toInt();
-
-        qDebug() << dx << dy << dz;
-        ui->horizontalSliderDX->setMaximum(dx-1);
-        ui->horizontalSliderDY->setMaximum(dy-1);
-        ui->horizontalSliderDZ->setMaximum(dz-1);
-
-    }
 }
 
 void MainWindow::setRed(int r_)
@@ -148,59 +134,58 @@ void MainWindow::setBlue(int b_)
 void MainWindow::drawShape(int hClick, int vClick)
 {
     switch(currentObject){
-    case(SPHERE):
-        s->putSphere(vClick,hClick,ui->horizontalSliderDZ->value(),ui->horizontalSliderRaio->value());
-        ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
-        break;
-    case(NOSPHERE):
-        s->cutSphere(vClick,hClick,ui->horizontalSliderDZ->value(),ui->horizontalSliderRaio->value());
-        ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
-        break;
-    case(VOXEL):
-        s->putVoxel(vClick,hClick,ui->horizontalSliderDZ->value());
-        ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
-        break;
-    case(NOVOXEL):
-        s->cutVoxel(vClick,hClick,ui->horizontalSliderDZ->value());
-        ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
-        break;
-    case(BOX):
-        s->putBox(vClick-ui->horizontalSliderBoxX->value()/2,
-                     vClick+ui->horizontalSliderBoxX->value()/2,
-                     hClick-ui->horizontalSliderBoxY->value()/2,
-                     hClick+ui->horizontalSliderBoxY->value()/2,
-                     ui->horizontalSliderDZ->value()-ui->horizontalSliderBoxZ->value()/2,
-                     ui->horizontalSliderDZ->value()+ui->horizontalSliderBoxZ->value()/2);
-        ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
-        break;
-    case(NOBOX):
-        s->cutBox(vClick-ui->horizontalSliderBoxX->value()/2,
-                     vClick+ui->horizontalSliderBoxX->value()/2,
-                     hClick-ui->horizontalSliderBoxY->value()/2,
-                     hClick+ui->horizontalSliderBoxY->value()/2,
-                     ui->horizontalSliderDZ->value()-ui->horizontalSliderBoxZ->value()/2,
-                     ui->horizontalSliderDZ->value()+ui->horizontalSliderBoxZ->value()/2);
-        ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
-        break;
-    case(ELLIPSOID):
-        s->putEllipsoid(vClick,hClick,ui->horizontalSliderDZ->value(),
-                      ui->horizontalSliderEllipseRx->value(),
-                      ui->horizontalSliderEllipseRy->value(),
-                      ui->horizontalSliderEllipseRz->value());
-        ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
-        break;
-    case(NOELLIPSOID):
-        s->cutEllipsoid(vClick,hClick,ui->horizontalSliderDZ->value(),
-                      ui->horizontalSliderEllipseRx->value(),
-                      ui->horizontalSliderEllipseRy->value(),
-                      ui->horizontalSliderEllipseRz->value());
-        ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
-        break;
-
+        case(VOXEL):
+            s->putVoxel(vClick,hClick,ui->horizontalSliderDZ->value());
+            ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
+            break;
+        case(NOVOXEL):
+            s->cutVoxel(vClick,hClick,ui->horizontalSliderDZ->value());
+            ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
+            break;
+        case(BOX):
+            s->putBox(vClick-ui->horizontalSliderBoxY->value()/2,
+                         vClick+ui->horizontalSliderBoxY->value()/2,
+                         hClick-ui->horizontalSliderBoxX->value()/2,
+                         hClick+ui->horizontalSliderBoxX->value()/2,
+                         ui->horizontalSliderDZ->value()-ui->horizontalSliderBoxZ->value()/2,
+                         ui->horizontalSliderDZ->value()+ui->horizontalSliderBoxZ->value()/2);
+            ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
+            break;
+        case(NOBOX):
+            s->cutBox(vClick-ui->horizontalSliderBoxY->value()/2,
+                         vClick+ui->horizontalSliderBoxY->value()/2,
+                         hClick-ui->horizontalSliderBoxX->value()/2,
+                         hClick+ui->horizontalSliderBoxX->value()/2,
+                         ui->horizontalSliderDZ->value()-ui->horizontalSliderBoxZ->value()/2,
+                         ui->horizontalSliderDZ->value()+ui->horizontalSliderBoxZ->value()/2);
+            ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
+            break;
+        case(SPHERE):
+            s->putSphere(vClick,hClick,ui->horizontalSliderDZ->value(),ui->horizontalSliderRaio->value());
+            ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
+            break;
+        case(NOSPHERE):
+            s->cutSphere(vClick,hClick,ui->horizontalSliderDZ->value(),ui->horizontalSliderRaio->value());
+            ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
+            break;
+        case(ELLIPSOID):
+            s->putEllipsoid(vClick,hClick,ui->horizontalSliderDZ->value(),
+                          ui->horizontalSliderEllipseRx->value(),
+                          ui->horizontalSliderEllipseRy->value(),
+                          ui->horizontalSliderEllipseRz->value());
+            ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
+            break;
+        case(NOELLIPSOID):
+            s->cutEllipsoid(vClick,hClick,ui->horizontalSliderDZ->value(),
+                          ui->horizontalSliderEllipseRx->value(),
+                          ui->horizontalSliderEllipseRy->value(),
+                          ui->horizontalSliderEllipseRz->value());
+            ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
+            break;
     }
 }
 
-void MainWindow::updateCoords(int hClick, int vClick)
+void MainWindow::updateCoords(int vClick, int hClick)
 {
     ui->horizontalSliderDX->setValue(vClick);
     ui->horizontalSliderDY->setValue(hClick);
@@ -244,7 +229,6 @@ void MainWindow::new_Sculptor()
         ui->horizontalSliderEllipseRz->setMaximum((dz-1)/2);
     }
 
-    //ui->widgetDraw->setTam(dx, dy);
     ui->widgetDraw->loadMatriz(s->getPlano(ui->horizontalSliderDZ->value(),XY));
     ui->horizontalSliderRed->setValue(0);
     ui->horizontalSliderGreen->setValue(0);
@@ -257,7 +241,7 @@ void MainWindow::save()
     QString selectedFilter;
     QString filename = D.getSaveFileName(this,tr("Save"),
                                               QDir::currentPath(),
-                                              tr("Arquivo OFF(*.off);;Arquivo VECT(*.vect)"),
+                                              tr("Arquivo OFF(*.off)"),
                                               &selectedFilter);
     if(filename.isNull()){
         return;

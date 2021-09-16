@@ -47,10 +47,6 @@ public slots:
      */
     void quit();
     /**
-     * @brief openDialog slot to open the dialog box
-     */
-    void openDialog(void);
-    /**
      * @brief setRed set red color
      * @param r_ red
      */

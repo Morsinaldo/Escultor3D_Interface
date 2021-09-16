@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['updatecoords_65',['updateCoords',['../class_main_window.html#a4c96e78bb7134ec5eb761f7f16fc72a6',1,'MainWindow']]],
-  ['updateposition_66',['updatePosition',['../class_plotter.html#aad1a009da2578706830e459b9fc3db2a',1,'Plotter']]]
+  ['writeoff_66',['writeOFF',['../class_sculptor.html#a4faae5ab2d72f2f682005f468e7e8a92',1,'Sculptor']]]
 ];
